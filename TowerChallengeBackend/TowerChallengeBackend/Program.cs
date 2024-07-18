@@ -15,6 +15,14 @@ builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ILevelsService, LevelsService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost5173",
+            builder => builder.WithOrigins("http://localhost:5173")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,9 +33,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowLocalhost5173"); // Apply the CORS policy here
 
-app.UseAuthorization();
-
+//app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

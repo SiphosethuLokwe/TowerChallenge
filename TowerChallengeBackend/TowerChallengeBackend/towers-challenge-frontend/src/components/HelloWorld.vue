@@ -3,7 +3,7 @@
   <div>
     <PlayerStats :player="player" />
     <BetPanel @startGame="startGame" />
-    <GameBoard :levels="1" :game="game" @selectBox="selectBox" />
+    <GameBoard :levels="levels" :game="game" @selectBox="selectBox" />
   </div>
 </template>
 
@@ -28,8 +28,7 @@ export default defineComponent({
     const game = playerStore.game;
 
     const startGame = (rows, difficulty, betAmount) => {
-      console.log(rows, difficulty, betAmount); // Ensure parameters are correct heres
-      playerStore.startGame({ rows, difficulty , betAmount });
+      playerStore.startGame(rows, difficulty, betAmount);
     };
 
     const selectBox = (row, box) => {

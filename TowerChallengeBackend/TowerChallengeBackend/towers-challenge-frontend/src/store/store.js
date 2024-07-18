@@ -2,29 +2,35 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-export const usePlayerStore = defineStore({
-  id: 'player',
+export const usePlayerStore = defineStore("GameStore", {
   state: () => ({
-    player: { balance: 1000 },
-    game: { levels: [] } // Ensure game is initialized with an empty levels array or appropriate default
+    player: { balance: null },
+    game: { levels: [] } 
   }),
   actions: {
-    async startGame({ commit }, { rows, difficulty, betAmount }) {
-      try {
-        const response = await axios.post('https://localhost:7006/api/game/start', { rows, difficulty, betAmount });
-        commit.setGame(response.data);
-      } catch (error) {
-        console.error('Error starting game:', error);
-        // Handle error as needed
-      }
+    async startGame(rows, difficulty, betAmount){   
+
+const requestData = {
+  rows: rows,
+  difficulty: difficulty,
+  betAmount: betAmount
+}
+   try {
+    const response = axios.post('https://localhost:7006/api/Tower/start', requestData );
+    this.setGame(response.data);
+  } catch (error) {
+    console.error('Error starting game:', error);
+  }
     },
+  
     async selectBox({ commit }, { gameId, row, box }) {
       try {
         const response = await axios.post('https://localhost:7006/api/game/select', { gameId, row, box });
         commit.setGame(response.data);
       } catch (error) {
+        console.log(error);
+
         console.error('Error selecting box:', error);
-        // Handle error as needed
       }
     }
   },
@@ -32,12 +38,13 @@ export const usePlayerStore = defineStore({
     player: (state) => state.player,
     game: (state) => state.game
   },
-  mutations: {
-    setPlayer(state, player) {
-      state.player = player;
-    },
-    setGame(state, game) {
-      state.game = game;
-    }
+  
+  setPlayer(state, player) {
+    state.player = player;
+  },
+
+  setGame(state, game) {
+    state.game = game;
   }
+
 });

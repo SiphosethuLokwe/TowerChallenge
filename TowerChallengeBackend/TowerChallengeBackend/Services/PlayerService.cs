@@ -5,38 +5,31 @@ namespace TowerChallengeBackend.Services
 {
     public class PlayerService : IPlayerService
     {
-
-        public PlayerService() { }
-
-        public async Task<List<Player>> GeneratePlayersAsync()
+        private static readonly string[] Names = new string[]
         {
-            List<Player> palyerList = new List<Player>();
-            var player1 = new Player()
-            {
-                Id = 1,
-                Balance = 1000,
-                Name = "Mario",
+            "Mario", "Luigi", "Peach", "Bowser", "Yoshi", "Toad", "Donkey Kong", "Wario", "Link", "Zelda", "Samus", "Kirby"
+        };
 
-            };
-            palyerList.Add(player1);
-            var player2 = new Player()
-            {
-                Id = 2,
-                Balance = 1000,
-                Name = "Bawser",
-            };
-            palyerList.Add(player2);
+        private readonly Random _random;
 
-            var player3 = new Player()
-            {
-                Id = 3,
-                Balance = 1000,
-                Name = "Shrek",
-            };
-            palyerList.Add(player3);
+        public PlayerService() {
+            _random = new Random();
+        }
 
-            return palyerList;
+        public async Task<Player> GeneratePlayerAsync()
+        {
+           //simulate getting a player  from somewhere , here just randomizing a random player when staring a game 
+                var player = new Player()
+                {
+                    Id = _random.Next(1, 1000),
+                    Balance = 1000,
+                    Name = Names[_random.Next(Names.Length)],
+                };      
+
+            return player;
 
         }
+
+      
     }
 }

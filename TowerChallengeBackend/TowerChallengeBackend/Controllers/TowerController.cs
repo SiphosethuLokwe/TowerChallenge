@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TowerChallengeBackend.DTO;
 using TowerChallengeBackend.Interfaces;
 using TowerChallengeBackend.Models;
 
@@ -23,17 +24,19 @@ namespace TowerChallengeBackend.Controllers
         [HttpPost]
         [Route("start")]
       
-        public IActionResult StartGame(int rows, string difficulty, decimal betAmount)
+        public IActionResult StartGame(RequestDTO requestDTO)
         {
-            //take first player 
-            var player = _playerService.GeneratePlayersAsync().Result.FirstOrDefault();
-            if (player?.Balance < betAmount)
+            //Generate random player  
+            var player = _playerService.GeneratePlayerAsync().Result;
+            if (player?.Balance < requestDTO.BetAmount)
             {
                 return BadRequest("Insufficient funds");
             }
 
-            _games = _gameService.SpinUpGameAsync(rows, betAmount, difficulty);
+           //setup game based on the parameters 
+            _games = _gameService.SpinUpGameAsync(requestDTO.Rows, requestDTO.BetAmount, requestDTO.Difficulty);
 
+            //return game 
             return Ok(_games);
         }
 

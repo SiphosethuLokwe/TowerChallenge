@@ -4,6 +4,6 @@ namespace TowerChallengeBackend.Interfaces
 {
     public interface IPlayerService
     {
-        Task<List<Player>> GeneratePlayersAsync();
+        Task<Player> GeneratePlayerAsync();
     }
 }
