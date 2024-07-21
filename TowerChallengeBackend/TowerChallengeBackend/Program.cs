@@ -11,9 +11,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //register services 
-builder.Services.AddScoped<IPlayerService, PlayerService>();
-builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddSingleton<IPlayerService, PlayerService>();
+builder.Services.AddSingleton<IGameService, GameService>();
 builder.Services.AddScoped<ILevelsService, LevelsService>();
+builder.Services.AddScoped<IBoxService, BoxService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -32,8 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowLocalhost5173"); // Apply the CORS policy here
+//app.UseHttpsRedirection();
+app.UseCors("AllowLocalhost5173"); // Apply the CORS polic
 
 //app.UseAuthorization();
 app.MapControllers();

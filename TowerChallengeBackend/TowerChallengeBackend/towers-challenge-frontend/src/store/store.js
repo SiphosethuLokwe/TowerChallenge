@@ -17,19 +17,18 @@ const requestData = {
 }
    try {
     const response = axios.post('https://localhost:7006/api/Tower/start', requestData );
-    this.setGame(response.data);
+    setGame(response.data);
   } catch (error) {
     console.error('Error starting game:', error);
   }
     },
   
-    async selectBox({ commit }, { gameId, row, box }) {
+    async selectBox(  gameId, row, box ) {
       try {
         const response = await axios.post('https://localhost:7006/api/game/select', { gameId, row, box });
-        commit.setGame(response.data);
+        setGame(response.data);
       } catch (error) {
         console.log(error);
-
         console.error('Error selecting box:', error);
       }
     }

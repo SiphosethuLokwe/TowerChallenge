@@ -2,6 +2,7 @@
 using TowerChallengeBackend.DTO;
 using TowerChallengeBackend.Interfaces;
 using TowerChallengeBackend.Models;
+using TowerChallengeBackend.Services;
 
 namespace TowerChallengeBackend.Controllers
 {
@@ -11,14 +12,14 @@ namespace TowerChallengeBackend.Controllers
     {
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
-        private readonly ILevelsService _levelsService; 
+        private readonly IBoxService _boxService;
         private  List<Game> _games;
 
-        public TowerController(IPlayerService playerService, IGameService gameService, ILevelsService levelsService )
+        public TowerController(IPlayerService playerService, IGameService gameService, ILevelsService levelsService, IBoxService boxService )
         {
             _playerService = playerService;
             _gameService = gameService;
-            _levelsService = levelsService;
+            _boxService = boxService;
         }
 
         [HttpPost]
@@ -26,14 +27,19 @@ namespace TowerChallengeBackend.Controllers
       
         public IActionResult StartGame(RequestDTO requestDTO)
         {
-            //Generate random player  
+            //Generate random player 
+            if (requestDTO.BetAmount == 0)
+            {
+                return BadRequest("No bet amount provided");
+
+            }
             var player = _playerService.GeneratePlayerAsync().Result;
+
             if (player?.Balance < requestDTO.BetAmount)
             {
                 return BadRequest("Insufficient funds");
             }
-
-           //setup game based on the parameters 
+            //setup game based on the parameters 
             _games = _gameService.SpinUpGameAsync(requestDTO.Rows, requestDTO.BetAmount, requestDTO.Difficulty);
 
             //return game 
@@ -44,25 +50,13 @@ namespace TowerChallengeBackend.Controllers
         [Route("select")]
         public IActionResult SelectBox(int gameId, int row, int box)
         {
-
-          var game = _games.FirstOrDefault(g => g.Id == gameId);
-
-            if (game == null || !game.IsActive)
+            if (gameId <= 0)
             {
-                return BadRequest("Game not found or not active");
+                return BadRequest("Game does not exist");
             }
-            var selectedBox = game.Levels.First(l => l.RowNumber == row).Boxes.First(b => b.Id == box);
 
-            if (selectedBox.IsLossToken)
-            {
-                game.IsActive = false;
-                return Ok(new { hasLost = true, winnings = 0 });
-            }
-            else
-            {
-                game.CurrentWinnings *= _levelsService.GetMultiplier(game.Difficulty);
-                return Ok(new { hasLost = false, winnings = game.CurrentWinnings });
-            }
+            return Ok(_boxService.GetSelectedBoc(ref _games, gameId, row, box));
+
 
 
         }
