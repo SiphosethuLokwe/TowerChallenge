@@ -45,7 +45,6 @@ const requestData = {
     },
     setGame(game){
       usePlayerStore.game = game;
-      console.log(usePlayerStore.game);
       this.setPlayer(game.player);
 
     },
@@ -55,11 +54,8 @@ const requestData = {
     },
   },
   getters: {
-    player: (state) => state.player,
-    game: (state) => state.game
+    playerDetails: (state) => state.player,
+    gameDetails: (state) => state.game
   },
   
- 
- 
-
 });

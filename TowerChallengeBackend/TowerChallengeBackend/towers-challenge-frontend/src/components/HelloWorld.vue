@@ -3,12 +3,12 @@
   <div>
     <PlayerStats :player="player" />
     <BetPanel @startGame="startGame" />
-    <GameBoard :levels="levels" :game="game" @selectBox="selectBox" />
+    <GameBoard v-if="game" :levels="game.levels" :game="game" @selectBox="selectBox" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { usePlayerStore } from '../store/store'; // Updated import
 import PlayerStats from './PlayerStats.vue';
 import BetPanel from './BetPanel.vue';
@@ -27,15 +27,21 @@ export default defineComponent({
     const player = playerStore.player;
     const game = playerStore.game;
 
+    console.log(player);    
+    console.log(game);
+
     const startGame = (rows, difficulty, betAmount) => {
       playerStore.startGame(rows, difficulty, betAmount);
     };
-
+     
+    console.log(startGame);
     const selectBox = (row, box) => {
       playerStore.selectBox({ gameId: game.id, row, box });
     };
 
+   
     return {
+    
       player,
       game,
       startGame,
@@ -43,8 +49,6 @@ export default defineComponent({
     };
   },
 
-  methods(){
 
-  }
 });
 </script>

@@ -20,9 +20,6 @@
     },
     methods: {
       startGame() {
-        console.log(this.rows);
-        console.log(this.difficulty);
-        console.log(this.betAmount);
         this.$emit('startGame', this.rows, this.difficulty, this.betAmount);
       }
     }

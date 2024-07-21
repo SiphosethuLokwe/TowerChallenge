@@ -1,69 +1,75 @@
 <template>
-    <div>
-      <canvas ref="canvas" width="800" height="600"></canvas>
+  <div>
+    <div class="game-board">
+      <div
+        v-for="(level, rowIndex) in levels"
+        :key="rowIndex"
+        class="row"
+      >
+        <div
+          v-for="(box, boxIndex) in level.boxes"
+          :key="box.id"
+          class="box"
+          @click="selectBox(level.rowNumber, box.id)"
+        >
+          {{ box.id }}
+        </div>
+      </div>
     </div>
+  </div>
 </template>
-  
-  <script>
-  export default {
-    props: {
-      levels: Array,
-      game: Object
+
+<script>
+export default {
+  props: {
+    levels: Array,
+    game: Object
+  },
+  mounted() {
+    this.setupGame();
+  },
+  methods: {
+    setupGame() {
+      console.log('Setup Game called');
+      console.log('Levels:', this.levels);
+      console.log('Game:', this.game);
+
+      // Add any additional setup logic if needed
     },
-    mounted() {
-      this.setupGame();
-    },
-    methods: {
-      setupGame() {
-        const canvas = this.$refs.canvas;
-        const ctx = canvas.getContext('2d');
-        
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw levels and boxes
-        if (this.levels && this.levels.length > 0) {
-          this.levels.forEach((level, rowIndex) => {
-            level.boxes.forEach((box, boxIndex) => {
-              const x = 50 * boxIndex;
-              const y = 50 * rowIndex;
-              
-              // Draw box
-              ctx.fillStyle = '#ffffff';
-              ctx.fillRect(x, y, 50, 50);
-              
-              // Handle box click
-              canvas.addEventListener('click', (event) => {
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = event.clientX - rect.left;
-                const mouseY = event.clientY - rect.top;
-                
-                if (mouseX >= x && mouseX <= x + 50 && mouseY >= y && mouseY <= y + 50) {
-                  this.selectBox(level.rowNumber, box.id);
-                }
-              });
-            });
-          });
-        }
-      },
-      selectBox(rowId, boxId) {
-        this.$emit('selectBox', rowId, boxId);
-      }
-    },
-    watch: {
-      levels: {
-        handler() {
-          this.setupGame();
-        },
-        deep: true // Watch for changes in nested arrays
-      }
+    selectBox(rowId, boxId) {
+      this.$emit('selectBox', rowId, boxId);
     }
-  };
-  </script>
-  
-  <style>
-  canvas {
-    border: 1px solid #ccc;
+  },
+  watch: {
+    levels: {
+      handler() {
+        this.setupGame();
+      },
+      deep: true // Watch for changes in nested arrays
+    }
   }
-  </style>
-  
+};
+</script>
+
+<style>
+.game-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  margin: 2px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+</style>
