@@ -11,9 +11,9 @@ namespace TowerChallengeBackend.Services
         {
             _levelsService = levelsService;
         }
-        public BoxResponse GetSelectedBox(ref List<Game> games, int gameId, int row, int box)
+        public BoxResponse GetSelectedBox(ref Game games, int gameId, int row, int box)
         {
-            var game = games.FirstOrDefault(g => g.Id == gameId);
+            var game = games;
 
             var selectedBox = game.Levels.First(l => l.RowNumber == row).Boxes.First(b => b.Id == box);
 

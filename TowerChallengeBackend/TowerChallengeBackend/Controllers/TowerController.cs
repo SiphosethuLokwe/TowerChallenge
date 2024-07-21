@@ -13,7 +13,7 @@ namespace TowerChallengeBackend.Controllers
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
         private readonly IBoxService _boxService;
-        private  List<Game> _games;
+        private  Game _games;
 
         public TowerController(IPlayerService playerService, IGameService gameService, ILevelsService levelsService, IBoxService boxService )
         {
@@ -40,8 +40,7 @@ namespace TowerChallengeBackend.Controllers
                 return BadRequest("Insufficient funds");
             }
             //setup game based on the parameters 
-            _games = _gameService.SpinUpGameAsync(requestDTO.Rows, requestDTO.BetAmount, requestDTO.Difficulty);
-
+            _games = _gameService.SpinUpGameAsync(player, requestDTO.Rows, requestDTO.BetAmount, requestDTO.Difficulty);
             //return game 
             return Ok(_games);
         }

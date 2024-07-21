@@ -4,6 +4,6 @@ namespace TowerChallengeBackend.Interfaces
 {
     public interface IGameService
     {
-        List<Game> SpinUpGameAsync(int rows, decimal betAmount, string difficulty);
+        Game SpinUpGameAsync(Player player,  int rows, decimal betAmount, string difficulty);
     }
 }

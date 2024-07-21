@@ -3,10 +3,13 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const usePlayerStore = defineStore("GameStore", {
-  state: () => ({
-    player: { balance: null },
-    game: { levels: [] } 
-  }),
+  state: () => {
+    return { player: null,
+    game: null
+    }
+  },
+
+ 
   actions: {
     async startGame(rows, difficulty, betAmount){   
 
@@ -16,34 +19,47 @@ const requestData = {
   betAmount: betAmount
 }
    try {
-    const response = axios.post('https://localhost:7006/api/Tower/start', requestData );
-    setGame(response.data);
+    const response = axios.post('https://localhost:7006/api/Tower/start', requestData )
+    .then(response => {
+      this.setGame(response.data);
+    });
   } catch (error) {
     console.error('Error starting game:', error);
   }
     },
   
     async selectBox(  gameId, row, box ) {
+      const requestData = {
+        gameId: gameId,
+        row: row,
+        box: box
+      }
+
       try {
-        const response = await axios.post('https://localhost:7006/api/game/select', { gameId, row, box });
+        const response = await axios.post('https://localhost:7006/api/game/select', requestData);
         setGame(response.data);
       } catch (error) {
         console.log(error);
         console.error('Error selecting box:', error);
       }
-    }
+    },
+    setGame(game){
+      usePlayerStore.game = game;
+      console.log(usePlayerStore.game);
+      this.setPlayer(game.player);
+
+    },
+    setPlayer(player){
+      usePlayerStore.player = player;
+      console.log(player);
+    },
   },
   getters: {
     player: (state) => state.player,
     game: (state) => state.game
   },
   
-  setPlayer(state, player) {
-    state.player = player;
-  },
-
-  setGame(state, game) {
-    state.game = game;
-  }
+ 
+ 
 
 });

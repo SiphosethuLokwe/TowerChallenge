@@ -4,6 +4,6 @@ namespace TowerChallengeBackend.Interfaces
 {
     public interface IBoxService
     {
-        BoxResponse GetSelectedBox(ref List<Game> games, int gameId, int row, int box);
+        BoxResponse GetSelectedBox(ref Game games, int gameId, int row, int box);
     }
 }
