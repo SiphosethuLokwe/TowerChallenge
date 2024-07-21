@@ -11,8 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //register services 
-builder.Services.AddSingleton<IPlayerService, PlayerService>();
-builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ILevelsService, LevelsService>();
 builder.Services.AddScoped<IBoxService, BoxService>();
 

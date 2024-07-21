@@ -55,9 +55,7 @@ namespace TowerChallengeBackend.Controllers
                 return BadRequest("Game does not exist");
             }
 
-            return Ok(_boxService.GetSelectedBoc(ref _games, gameId, row, box));
-
-
+            return Ok(_boxService.GetSelectedBox(ref _games, gameId, row, box));
 
         }
     }
