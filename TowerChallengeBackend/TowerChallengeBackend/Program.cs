@@ -11,10 +11,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //register services 
-builder.Services.AddScoped<IPlayerService, PlayerService>();
-builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<ILevelsService, LevelsService>();
-builder.Services.AddScoped<IBoxService, BoxService>();
+builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddTransient<ILevelsService, LevelsService>();
+builder.Services.AddTransient<IBoxService, BoxService>();
 
 
 builder.Services.AddCors(options =>

@@ -11,9 +11,8 @@ namespace TowerChallengeBackend.Services
         {
             _levelsService = levelsService;
         }
-        public BoxResponse GetSelectedBox(ref Game games, int gameId, int row, int box)
+        public BoxResponse GetSelectedBox( Game game, int row, int box)
         {
-            var game = games;
 
             var selectedBox = game.Levels.First(l => l.RowNumber == row).Boxes.First(b => b.Id == box);
 
@@ -24,7 +23,7 @@ namespace TowerChallengeBackend.Services
             }
             else
             {
-                game.CurrentWinnings *= _levelsService.GetMultiplier(game.Difficulty);
+                game.CurrentWinnings *= _levelsService.WinningsCalculator(game.Difficulty);
                 return new BoxResponse { hasLost = false, Winnings = game.CurrentWinnings };
             }
         }

@@ -12,7 +12,6 @@
     setup() {
       const playerStore = usePlayerStore();
       const player = playerStore.player;
-  
       return {
         player
       };

@@ -31,6 +31,23 @@ export const gamestore = defineStore("gamestore", () => {
               console.error('Error starting game:', error);
             }
     };
+
+    const selectBox = ( gameId, row, box )  => {
+        console.log(gameId, row, box );
+        const requestData = {
+          gameId: gameId,
+          row: row,
+          box: box
+        }
+  
+        try {
+          const response = axios.post('https://localhost:7006/api/Tower/select', requestData);
+          //setGame(response.data);
+        } catch (error) {
+          console.log(error);
+          console.error('Error selecting box:', error);
+        }
+      }
    
      const setGame = (newGame) => {
         game.value = newGame;
@@ -43,7 +60,8 @@ export const gamestore = defineStore("gamestore", () => {
         setGame,
         gameDetails,
         playerDetails,
-        startGame
+        startGame,
+        selectBox
     }
 
 })

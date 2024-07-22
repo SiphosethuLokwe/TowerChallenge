@@ -30,14 +30,12 @@ export default {
   },
   methods: {
     setupGame() {
-      console.log('Setup Game called');
       console.log('Levels:', this.levels);
       console.log('Game:', this.game);
-
-      // Add any additional setup logic if needed
     },
     selectBox(rowId, boxId) {
-      this.$emit('selectBox', rowId, boxId);
+      console.log(rowId,boxId,this.game.id);
+      this.$emit('selectBox',this.game.id, rowId, boxId);
     }
   },
   watch: {

@@ -31,17 +31,11 @@ export default defineComponent({
       gameStore.startGame(rows, difficulty, betAmount);
     };
      
-    const selectBox = (row, box) => {
-      gameStore.selectBox({ gameId: game.id, row, box });
+    const selectBox = (gameid, row, box) => {
+      console.log(row,box,gameid);
+      gameStore.selectBox(gameid, row, box ) ;
     };
-      console.log(player);
-    onMounted(async () => {
-     console.log(player);
-     console.log(game);
-
-
-    });
-
+ 
     return {
     
       player,

@@ -8,6 +8,7 @@ namespace TowerChallengeBackend.Services
     {
         private readonly ILevelsService _levelService;
         private readonly Random _random;
+        private Game _currentGame;
 
 
         public GameService(ILevelsService levelsService ) {
@@ -19,7 +20,7 @@ namespace TowerChallengeBackend.Services
         public  Game SpinUpGameAsync(Player player, int rows, decimal betAmount, string difficulty)
         {
 
-            var game = new Game
+            _currentGame = new Game
             {
                 Id = _random.Next(50, 10000),
                 Rows = rows,
@@ -29,7 +30,13 @@ namespace TowerChallengeBackend.Services
                 CurrentWinnings = betAmount,
                 player = player
             };
-            return game;
+            return _currentGame;
         }
+
+        public Game GetCurrentGame()
+        {
+            return _currentGame;
+        }
+
     }
 }

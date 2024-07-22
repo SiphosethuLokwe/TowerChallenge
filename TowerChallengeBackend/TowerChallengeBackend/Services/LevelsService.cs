@@ -47,7 +47,7 @@ namespace TowerChallengeBackend.Services
             };
         }
 
-        public decimal GetMultiplier(string difficulty)
+        public decimal WinningsCalculator(string difficulty)
         {
             return difficulty switch
             {
