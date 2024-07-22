@@ -4,7 +4,7 @@
     <BetPanel @startGame="startGame" />
     <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox" />
     <BoxResponseDisplay :response="gameresponse" />
-    <!-- <PlayerStats :player="player" /> -->
+    <PlayerStats v-if ="player" :player="player" /> 
 
   </div>
 </template>

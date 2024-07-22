@@ -1,7 +1,7 @@
 <!-- src/App.vue or any other component -->
 <template>
   <div>
-    <PlayerStats :player="player" />
+    <!-- <PlayerStats :player="player" /> -->
     <BetPanel @startGame="startGame" />
     <GameBoard v-if="game" :levels="game.levels" :game="game" @selectBox="selectBox" />
   </div>

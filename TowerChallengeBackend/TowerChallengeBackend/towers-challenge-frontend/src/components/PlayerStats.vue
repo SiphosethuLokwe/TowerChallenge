@@ -1,23 +1,28 @@
 <template>
-    <div>
-      <p v-if="player">Balance: {{ player.balance }}</p>
-    </div>
-  </template>
-  
-  <script>
-  import { defineComponent, computed } from 'vue';
-  import { gamestore } from '../store/gamestore'; 
-  
-  export default defineComponent({
-    setup() {
-      const gamestore = gamestore();
+  <div>
+    <p v-if="player">Balance: {{ player.balance }}</p>
+  </div>
+</template>
 
-      const player = computed(() => gamestore.playerDetails);
+<script>
+import { defineComponent, ref, watch } from 'vue';
 
-      return {
-        player
-      };
+export default defineComponent({
+  props: {
+    response: {
+      type: Object,
     }
-  });
-  </script>
-  
+  },
+  setup(props) {
+    const player = ref(null);
+
+    watch(() => props.response, (newResponse) => {
+      if (newResponse && newResponse.data) {
+        player.value = newResponse.data.player;
+      }
+    }, { immediate: true });
+
+    return { player };
+  }
+});
+</script>

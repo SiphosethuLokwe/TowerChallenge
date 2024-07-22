@@ -38,7 +38,7 @@ export default {
   watch: {
     boxResponse: {
       handler(newResponse) {
-        console.log(newResponse.data);
+        console.log(newResponse);
         this.isEndgame = newResponse.data.isEndgame; // Update isEndgame based on the response
       },
       deep: true
