@@ -26,7 +26,6 @@ namespace TowerChallengeBackend.Controllers
       
         public IActionResult StartGame(RequestDTO requestDTO)
         {
-            //Generate random player 
             if (requestDTO.BetAmount == 0)
             {
                 return BadRequest("No bet amount provided");
@@ -38,9 +37,7 @@ namespace TowerChallengeBackend.Controllers
             {
                 return BadRequest("Insufficient funds");
             }
-            //setup game based on the parameters 
-           ;
-            //return game 
+           
             return Ok(_gameService.SpinUpGameAsync(player, requestDTO.Rows, requestDTO.BetAmount, requestDTO.Difficulty));
         }
 
@@ -52,8 +49,13 @@ namespace TowerChallengeBackend.Controllers
             {
                 return BadRequest("Game does not exist");
             }
+            var currentGame = _gameService.GetCurrentGame();
 
-            return Ok(_boxService.GetSelectedBox(_gameService.GetCurrentGame(), boxSelectDTO.Row, boxSelectDTO.Box));
+            if (currentGame.Id != boxSelectDTO.GameId)
+            {
+                return BadRequest("Something went wrong with the intance of the game");
+            }
+            return Ok(_boxService.GetSelectedBox(currentGame, boxSelectDTO.Row, boxSelectDTO.Box));
 
         }
     }
