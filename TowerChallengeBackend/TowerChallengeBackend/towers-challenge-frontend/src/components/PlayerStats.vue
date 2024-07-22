@@ -5,13 +5,15 @@
   </template>
   
   <script>
-  import { defineComponent } from 'vue';
-  import { usePlayerStore } from '../store/store';
+  import { defineComponent, computed } from 'vue';
+  import { gamestore } from '../store/gamestore'; 
   
   export default defineComponent({
     setup() {
-      const playerStore = usePlayerStore();
-      const player = playerStore.player;
+      const gamestore = gamestore();
+
+      const player = computed(() => gamestore.playerDetails);
+
       return {
         player
       };

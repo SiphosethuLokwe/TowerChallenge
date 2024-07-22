@@ -1,16 +1,24 @@
-﻿using TowerChallengeBackend.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TowerChallengeBackend.Interfaces;
 using TowerChallengeBackend.Models;
 
 namespace TowerChallengeBackend.Services
 {
     public class LevelsService : ILevelsService
     {
-        public LevelsService() { }
+        private readonly Random _random;
+
+        public LevelsService()
+        {
+            _random = new Random();
+        }
 
         public async Task<List<Level>> GenerateLevelsAsync(int rows, string difficulty)
         {
             var levels = new List<Level>();
-            var random = new Random();
 
             for (int i = 1; i <= rows; i++)
             {
@@ -23,28 +31,42 @@ namespace TowerChallengeBackend.Services
                 int numBoxes = i + 1;
                 int numLossTokens = GetNumLossTokens(difficulty, numBoxes);
 
-                for (int j = 1; j <= numBoxes; j++)
+
+                // Create a list of box indices
+                var boxIndices = Enumerable.Range(1, numBoxes).ToList();
+
+                // Shuffle the list to randomize the positions of loss tokens
+                Shuffle(boxIndices);
+
+                for (int j = 0; j < numBoxes; j++)
                 {
-                    level.Boxes.Add(new Box { Id = j, IsLossToken = numLossTokens > 0 && random.NextDouble() < (double)numLossTokens / numBoxes });
-                    numLossTokens -= level.Boxes.Last().IsLossToken ? 1 : 0;
+                    bool isLossToken = boxIndices[j] <= numLossTokens; // The first numLossTokens elements will be loss tokens
+                    level.Boxes.Add(new Box { Id = j + 1, IsLossToken = isLossToken });
                 }
 
                 levels.Add(level);
+
+              
             }
 
             return levels;
         }
 
-
         private int GetNumLossTokens(string difficulty, int numBoxes)
         {
-            return difficulty switch
+            int numLossTokens = difficulty switch
             {
-                "easy" => (int)(numBoxes * 0.1),
-                "medium" => (int)(numBoxes * 0.2),
-                "hard" => (int)(numBoxes * 0.3),
-                _ => 0,
+                "easy" => (int)(numBoxes * 0.1),    // 10% for easy
+                "medium" => (int)(numBoxes * 0.2),  // 20% for medium
+                "hard" => (int)(numBoxes * 0.3),    // 30% for hard
+                _ => 0
             };
+
+            // Ensure at least one loss token if the number is greater than zero
+            numLossTokens = Math.Max(numLossTokens, 1);
+
+            // Ensure the number of loss tokens does not exceed the number of boxes
+            return Math.Min(numLossTokens, numBoxes);
         }
 
         public decimal WinningsCalculator(string difficulty)
@@ -56,6 +78,19 @@ namespace TowerChallengeBackend.Services
                 "hard" => 2.0m,
                 _ => 1m,
             };
+        }
+
+        private void Shuffle<T>(IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = _random.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }

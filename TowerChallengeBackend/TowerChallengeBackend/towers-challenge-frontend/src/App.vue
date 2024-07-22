@@ -1,9 +1,10 @@
 <!-- src/App.vue or any other component -->
 <template>
   <div>
-    <PlayerStats :player="player" />
     <BetPanel @startGame="startGame" />
     <GameBoard v-if="game" :levels="game.levels" :game="game" @selectBox="selectBox" />
+    <!-- <PlayerStats :player="player" /> -->
+
   </div>
 </template>
 
@@ -27,12 +28,10 @@ export default defineComponent({
     const game = computed(() => gameStore.gameDetails);
 
     const startGame = (rows, difficulty, betAmount) => {
-      console.log(rows, difficulty, betAmount);
       gameStore.startGame(rows, difficulty, betAmount);
     };
      
     const selectBox = (gameid, row, box) => {
-      console.log(row,box,gameid);
       gameStore.selectBox(gameid, row, box ) ;
     };
  

@@ -3,16 +3,15 @@ import axios from 'axios';
 import {ref, computed } from 'vue'
 
 export const gamestore = defineStore("gamestore", () => {
-    const state = ref({
-        game :null,
-        player: null
-    });
+  
 
     const game = ref(null);
     const player = ref(null);
+    const boxresponse = ref(null);
 
     const gameDetails = computed(() => game.value);
     const playerDetails = computed(() => player.value);
+    const boxGamePlayDetails = computed(() => boxresponse.value);
 
     const startGame = (rows, difficulty, betAmount) => {
         const requestData = {
@@ -33,7 +32,6 @@ export const gamestore = defineStore("gamestore", () => {
     };
 
     const selectBox = ( gameId, row, box )  => {
-        console.log(gameId, row, box );
         const requestData = {
           gameId: gameId,
           row: row,
@@ -41,8 +39,11 @@ export const gamestore = defineStore("gamestore", () => {
         }
   
         try {
-          const response = axios.post('https://localhost:7006/api/Tower/select', requestData);
-          //setGame(response.data);
+           axios.post('https://localhost:7006/api/Tower/select', requestData)
+          .then(response => {
+            console.log(response);
+            SelectedBoxResponse(response);
+          });
         } catch (error) {
           console.log(error);
           console.error('Error selecting box:', error);
@@ -54,14 +55,17 @@ export const gamestore = defineStore("gamestore", () => {
         player.value = newGame.player;
 
      };
+     const SelectedBoxResponse = (boxResponse) =>{
+        boxresponse.value = boxResponse;
+     };
     
     return {
-        state,
         setGame,
         gameDetails,
         playerDetails,
         startGame,
-        selectBox
+        selectBox,
+        boxGamePlayDetails
     }
 
 })
