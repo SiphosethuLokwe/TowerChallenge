@@ -18,8 +18,7 @@ namespace TowerChallengeBackend.Services
 
             if (selectedBox.IsLossToken)
             {
-                game.IsActive = false;
-                return new BoxResponse { hasLost = true, Winnings = 0 };
+                return new BoxResponse { hasLost = true, Winnings = 0,  isEndgame = true};
             }
             else
             {

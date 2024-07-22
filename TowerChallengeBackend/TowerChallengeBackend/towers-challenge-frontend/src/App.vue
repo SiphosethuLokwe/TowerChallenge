@@ -2,7 +2,7 @@
 <template>
   <div>
     <BetPanel @startGame="startGame" />
-    <GameBoard v-if="game" :levels="game.levels" :game="game" @selectBox="selectBox" />
+    <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox" />
     <BoxResponseDisplay :response="gameresponse" />
     <!-- <PlayerStats :player="player" /> -->
 
