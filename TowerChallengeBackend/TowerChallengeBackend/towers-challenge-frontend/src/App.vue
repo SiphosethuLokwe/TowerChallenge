@@ -3,6 +3,7 @@
   <div>
     <BetPanel @startGame="startGame" />
     <GameBoard v-if="game" :levels="game.levels" :game="game" @selectBox="selectBox" />
+    <BoxResponseDisplay :response="gameresponse" />
     <!-- <PlayerStats :player="player" /> -->
 
   </div>
@@ -14,18 +15,20 @@ import { gamestore } from './store/gamestore';
 import PlayerStats from './components/PlayerStats.vue';
 import BetPanel from './components/BetPanel.vue';
 import GameBoard from './components/GameBoard.vue';
-
+import BoxResponseDisplay from './components/GameResponse.vue'
 export default defineComponent({
   components: {
     PlayerStats,
     BetPanel,
-    GameBoard
+    GameBoard,
+    BoxResponseDisplay
   },
   setup() {
     const gameStore = gamestore(); 
 
     const player = computed(() => gameStore.playerDetails);
     const game = computed(() => gameStore.gameDetails);
+    const gameresponse = computed (() => gameStore.boxGamePlayDetails);
 
     const startGame = (rows, difficulty, betAmount) => {
       gameStore.startGame(rows, difficulty, betAmount);
@@ -40,7 +43,8 @@ export default defineComponent({
       player,
       game,
       startGame,
-      selectBox
+      selectBox,
+      gameresponse
     };
   },
   
