@@ -4,7 +4,8 @@
     <BetPanel @startGame="startGame" />
     <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox" />
     <BoxResponseDisplay :response="gameresponse" />
-    <PlayerStats v-if ="player" :player="player" /> 
+    <!-- <PlayerStats v-if ="player" :player="player" />  -->
+     <!-- will need to create a new store for the player component data -->
 
   </div>
 </template>

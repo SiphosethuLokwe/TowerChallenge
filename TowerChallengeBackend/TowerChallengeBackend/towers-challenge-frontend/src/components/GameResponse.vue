@@ -1,4 +1,3 @@
-<!-- BoxResponseDisplay.vue -->
 <template>
     <div>
       <el-alert

@@ -25,11 +25,11 @@ export default {
   props: {
     levels: Array,
     game: Object,
-    boxResponse: Object // Add the boxResponse prop to handle response
+    boxResponse: Object 
   },
   data() {
     return {
-      isEndgame: false // Default value for isEndgame
+      isEndgame: false 
     };
   },
   mounted() {
@@ -39,7 +39,7 @@ export default {
     boxResponse: {
       handler(newResponse) {
         console.log(newResponse);
-        this.isEndgame = newResponse.data.isEndgame; // Update isEndgame based on the response
+        this.isEndgame = newResponse.data.isEndgame; 
       },
       deep: true
     },
@@ -57,16 +57,14 @@ export default {
       console.log('BoxResponse:', this.boxResponse);
     },
     selectBox(rowId, boxId) {
-      if (this.isEndgame) return; // Do nothing if the game is in end state
+      if (this.isEndgame) return; 
 
-      // Find the level and box
       const level = this.levels.find(level => level.rowNumber === rowId);
       if (!level) return;
 
       const box = level.boxes.find(box => box.id === boxId);
       if (!box || box.selected) return;
 
-      // Mark box as selected
       box.selected = true;
 
       console.log(rowId, boxId, this.game.id);
@@ -99,12 +97,11 @@ export default {
 }
 
 .box.selected {
-  background-color: #d3d3d3; /* Change color to indicate selection */
-  cursor: not-allowed; /* Change cursor to indicate disabled */
+  background-color: #d3d3d3; 
+  cursor: not-allowed; 
 }
 
 .box.disabled {
-  cursor: not-allowed; /* Disable cursor if the game is in end state */
-  background-color: #f0f0f0; /* Optional: Change color to indicate disabled state */
+  background-color: #f0f0f0; 
 }
 </style>
