@@ -9,7 +9,7 @@
 
 <script>
 import { defineComponent, onMounted } from 'vue';
-import { usePlayerStore } from '../store/store'; // Updated import
+import { usePlayerStore } from '../store/store'; 
 import PlayerStats from './PlayerStats.vue';
 import BetPanel from './BetPanel.vue';
 import GameBoard from './GameBoard.vue';

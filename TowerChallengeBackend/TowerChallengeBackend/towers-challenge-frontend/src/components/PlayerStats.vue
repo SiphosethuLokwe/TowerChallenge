@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <p v-if="player">Balance: {{ player.balance }}</p>
+  <div class="player-stats">
+    <h3>Player Stats</h3>
+    <p>Has Lost: {{ stats.data.hasLost ? 'Yes' : 'No' }}</p>
+    <p>Winnings: {{ stats.data.winnings }}</p>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
-
-export default defineComponent({
+export default {
   props: {
-    response: {
+    stats: {
       type: Object,
+      required: true
     }
-  },
-  setup(props) {
-    const player = ref(null);
-
-    watch(() => props.response, (newResponse) => {
-      if (newResponse && newResponse.data) {
-        player.value = newResponse.data.player;
-      }
-    }, { immediate: true });
-
-    return { player };
   }
-});
+};
 </script>
+
+<style>
+.player-stats {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+</style>

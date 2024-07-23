@@ -25,7 +25,8 @@ export default {
   props: {
     levels: Array,
     game: Object,
-    boxResponse: Object 
+    boxResponse: Object,
+    cashout:Object
   },
   data() {
     return {
@@ -41,8 +42,16 @@ export default {
         console.log(newResponse);
         this.isEndgame = newResponse.data.isEndgame; 
       },
+      
       deep: true
     },
+    cashout:{
+        handler(cashResponse) {
+        console.log(cashResponse);
+       
+      },
+      deep: true
+      },
     levels: {
       handler() {
         this.setupGame();
