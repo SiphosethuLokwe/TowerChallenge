@@ -8,10 +8,13 @@ export const gamestore = defineStore("gamestore", () => {
     const game = ref(null);
     const player = ref(null);
     const boxresponse = ref(null);
+    const isCashout = ref(null);
 
     const gameDetails = computed(() => game.value);
     const playerDetails = computed(() => player.value);
     const boxGamePlayDetails = computed(() => boxresponse.value);
+    const cashoutDetails = computed(()=> isCashout.value);
+    console.log(cashoutDetails.value);
 
     const startGame = (rows, difficulty, betAmount) => {
         const requestData = {
@@ -48,7 +51,17 @@ export const gamestore = defineStore("gamestore", () => {
           console.log(error);
           console.error('Error selecting box:', error);
         }
-      }
+      };
+
+      const startAutoPlay = (rows, difficulty, betAmount, count) => {
+        const requestData = { rows, difficulty, betAmount, count };
+        try {
+          const response = axios.post('https://localhost:7006/api/Tower/startAutoPlay', requestData);
+          setGame(response.data);
+        } catch (error) {
+          console.error('Error starting autoplay:', error);
+        }
+      };
    
      const setGame = (newGame) => {
         game.value = newGame;
@@ -58,6 +71,10 @@ export const gamestore = defineStore("gamestore", () => {
      const SelectedBoxResponse = (boxResponse) =>{
         boxresponse.value = boxResponse;
      };
+
+     const cashout = (iscashout) => {
+        isCashout.value = iscashout;  
+      };
     
     return {
         setGame,
@@ -65,7 +82,9 @@ export const gamestore = defineStore("gamestore", () => {
         playerDetails,
         startGame,
         selectBox,
-        boxGamePlayDetails
+        boxGamePlayDetails,
+        cashout,
+        cashoutDetails
     }
 
 })

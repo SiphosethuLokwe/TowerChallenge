@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 //register services 
 builder.Services.AddSingleton<IGameService, GameService>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
+
 builder.Services.AddTransient<ILevelsService, LevelsService>();
 builder.Services.AddTransient<IBoxService, BoxService>();
 
@@ -20,7 +21,7 @@ builder.Services.AddTransient<IBoxService, BoxService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost5173",
-            builder => builder.WithOrigins("http://localhost:5173")
+            builder => builder.WithOrigins("http://localhost:5174")
                               .AllowAnyMethod()
                               .AllowAnyHeader());
 });

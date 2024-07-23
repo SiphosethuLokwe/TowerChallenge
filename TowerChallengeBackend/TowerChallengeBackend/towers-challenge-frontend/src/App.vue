@@ -1,7 +1,7 @@
 <template>
   <div>
-    <BetPanel @startGame="startGame" @continueGame="continueGame" @cashOut="cashOut" :gameResponse="gameresponse" />
-    <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox" :cashout="cashOut" />
+    <BetPanel @startGame="startGame" @continueGame="continueGame" @cashOut="cashOut" @autoPlay="startAutoPlay" :gameResponse="gameresponse" />
+    <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" :cashout="isCashout" @selectBox="selectBox"  />
     <BoxResponseDisplay :response="gameresponse" />
   </div>
 </template>
@@ -28,6 +28,8 @@ export default defineComponent({
     const player = computed(() => gameStore.playerDetails);
     const game = computed(() => gameStore.gameDetails);
     const gameresponse = computed(() => gameStore.boxGamePlayDetails);
+    const isCashout = computed(() => gamestore.cashoutDetails)
+    console.log(isCashout);
 
     const startGame = (rows, difficulty, betAmount) => {
       if (rows < 4 || rows > 8){
@@ -45,14 +47,12 @@ export default defineComponent({
       gameStore.startGame(rows, difficulty, betAmount);
     };
 
-    const continueGame = () => {
-      // Logic for continuing the game can be added here if needed
-      console.log('Continue game logic');
+    const startAutoPlay = (rows, difficulty, betAmount, count) => {
+      gameStore.startAutoPlay(rows, difficulty, betAmount, count);
     };
+    
     const cashOut = (iscashout) => {
-    const cashoutDetails = gameresponse.value;
-    console.log(cashoutDetails, iscashout);
-    return {cashoutDetails, iscashout}
+      gameStore.cashout(iscashout);
     };
 
     const selectBox = (gameid, row, box) => {
@@ -63,11 +63,9 @@ export default defineComponent({
       player,
       game,
       startGame,
-      continueGame,
       cashOut,
       selectBox,
-      gameresponse,
-      cashOut
+      gameresponse
       
     };
   }
