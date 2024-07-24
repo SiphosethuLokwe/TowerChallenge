@@ -14,7 +14,6 @@ export const gamestore = defineStore("gamestore", () => {
     const playerDetails = computed(() => player.value);
     const boxGamePlayDetails = computed(() => boxresponse.value);
     const cashoutDetails = computed(()=> isCashout.value);
-    console.log(cashoutDetails.value);
 
     const startGame = (rows, difficulty, betAmount) => {
         const requestData = {
@@ -72,9 +71,15 @@ export const gamestore = defineStore("gamestore", () => {
         boxresponse.value = boxResponse;
      };
 
-     const cashout = (iscashout) => {
-        isCashout.value = iscashout;  
+     const cashout = () => {
+        game.value = null;
       };
+
+      const restartGame =() =>{
+        game.value = null;
+        player.value = null;
+        boxresponse.value = null;
+      }
     
     return {
         setGame,
@@ -84,7 +89,8 @@ export const gamestore = defineStore("gamestore", () => {
         selectBox,
         boxGamePlayDetails,
         cashout,
-        cashoutDetails
+        cashoutDetails,
+        restartGame
     }
 
 })

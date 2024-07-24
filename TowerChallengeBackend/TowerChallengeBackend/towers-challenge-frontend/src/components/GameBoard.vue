@@ -26,7 +26,7 @@ export default {
     levels: Array,
     game: Object,
     boxResponse: Object,
-    cashout:Object
+    cashout:Boolean
   },
   data() {
     return {
@@ -39,7 +39,6 @@ export default {
   watch: {
     boxResponse: {
       handler(newResponse) {
-        console.log(newResponse);
         this.isEndgame = newResponse.data.isEndgame; 
       },
       
@@ -47,8 +46,7 @@ export default {
     },
     cashout:{
         handler(cashResponse) {
-        console.log(cashResponse);
-       
+       console.log(cashResponse);
       },
       deep: true
       },
@@ -61,9 +59,7 @@ export default {
   },
   methods: {
     setupGame() {
-      console.log('Levels:', this.levels);
-      console.log('Game:', this.game);
-      console.log('BoxResponse:', this.boxResponse);
+  
     },
     selectBox(rowId, boxId) {
       if (this.isEndgame) return; 
@@ -76,7 +72,6 @@ export default {
 
       box.selected = true;
 
-      console.log(rowId, boxId, this.game.id);
       this.$emit('selectBox', this.game.id, rowId, boxId);
     }
   }

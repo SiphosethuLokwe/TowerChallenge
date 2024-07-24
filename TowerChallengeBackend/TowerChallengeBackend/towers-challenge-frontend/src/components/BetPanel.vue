@@ -7,9 +7,9 @@
     <button @click="startGame" v-if="!gameStarted">Start Game</button>
     </div>
   
-    <button @click="continueGame" v-if="gameStarted">Restart Game</button>
+    <button @click="restartGame" v-if="gameStarted">Restart Game</button>
     <button @click="cashOut" v-if="gameResponse && !hasLost">Cash Out</button>
-    <button @click="autoPlay" v-if = "gameResponse && !hasLost">Start AutoPlay</button>
+    <button @click="autoPlay" v-if = "gameStarted && !haslost">Start AutoPlay</button>
 
     <PlayerStats v-if="gameResponse" :stats="gameResponse" /> 
   </div>
@@ -29,7 +29,6 @@ export default {
       betAmount: 1000,
       gameStarted: false,
       hasLost: false,
-      isCashout:true,
       autoPlayCount: 1 
     };
   },
@@ -42,7 +41,6 @@ export default {
       handler(newResponse) {      
         if (newResponse) {
           this.hasLost = newResponse.data.hasLost;
-          console.log(this.hasLost);
           if (newResponse.isEndgame) {
             this.gameStarted = false;
           }
@@ -55,11 +53,15 @@ export default {
       this.gameStarted = true;
       this.$emit('startGame', this.rows, this.difficulty, this.betAmount);
     },
-    continueGame() {
-      this.$emit('continueGame');
+    restartGame() {
+      this.gameStarted = false;
+      console.log( this.gameStarted);
+      this.$emit('restartGame');
     },
     cashOut() {
-      this.$emit('cashOut', this.isCashout);
+
+
+      this.$emit('cashOut');
     },
     autoPlay(){
       this.$emit('startAutoPlay', this.rows, this.difficulty, this.betAmount, this.autoPlayCount);

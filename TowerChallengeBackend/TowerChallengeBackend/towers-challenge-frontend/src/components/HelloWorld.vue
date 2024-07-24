@@ -41,7 +41,6 @@ export default defineComponent({
 
    
     return {
-    
       player,
       game,
       startGame,

@@ -1,5 +1,6 @@
+<!-- BoxResponseDisplay.vue -->
 <template>
-    <div>
+    <div v-if="response != null">
       <el-alert
         v-if="response"
         :title="alertTitle"
@@ -28,8 +29,8 @@
       const responseDescription = ref('');
   
       watch(() => props.response, (newResponse) => {
-        console.log(newResponse.data);
-        if (newResponse.data.hasLost) {
+        if(newResponse != null ){
+            if (newResponse.data.hasLost) {
           alertTitle.value = 'Game Over';
           alertType.value = 'error';
           responseDescription.value = 'Sorry, you have lost. Better luck next time!';
@@ -38,6 +39,8 @@
           alertType.value = 'success';
           responseDescription.value = `Your new balance is now ${newResponse.data.winnings}`;
         }
+        }
+       
       });
   
       return {
