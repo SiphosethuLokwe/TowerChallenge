@@ -22,7 +22,7 @@
       </div>
     </div>
     <button
-      v-if="playMode === 'auto'"
+      v-if="playMode === 'auto' && !isGameEnded"
       @click="autoPlay"
       class="btn btn-primary mt-3"
       :disabled="selectedBoxes.length === 0 || isGameEnded"
