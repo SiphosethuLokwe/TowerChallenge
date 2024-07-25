@@ -1,7 +1,7 @@
 <template>
   <div>
     <BetPanel @startGame="startGame" @restartGame="restartGame" @cashOut="cashOut" @autoPlay="startAutoPlay" :gameResponse="gameresponse" />
-    <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox"  />
+    <GameBoard v-if="game" :levels="game.levels" :game="game" :boxResponse="gameresponse" @selectBox="selectBox" @autoPlay="evaluateBoxes" />
     <BoxResponseDisplay :response="gameresponse" />
   </div>
 </template>
@@ -56,10 +56,15 @@ export default defineComponent({
     const selectBox = (gameid, row, box) => {
       gameStore.selectBox(gameid, row, box);
     };
+
     const restartGame = () => {
       gameStore.restartGame();
       console.log(gameresponse);
 
+    };
+
+    const evaluateBoxes = (selectedBoxes) => {
+      gameStore.evaluateBoxes(selectedBoxes);
     };
 
     return {
@@ -71,6 +76,7 @@ export default defineComponent({
       startAutoPlay,
       gameresponse,
       restartGame,
+      evaluateBoxes
       
     };
   }

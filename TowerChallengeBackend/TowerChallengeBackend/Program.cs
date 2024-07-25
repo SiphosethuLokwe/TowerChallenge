@@ -21,7 +21,7 @@ builder.Services.AddTransient<IBoxService, BoxService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost5173",
-            builder => builder.WithOrigins("http://localhost:5174")
+            builder => builder.WithOrigins("http://localhost:5173")
                               .AllowAnyMethod()
                               .AllowAnyHeader());
 });
